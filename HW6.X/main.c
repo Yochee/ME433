@@ -31,10 +31,9 @@
 #pragma config FVBUSONIO=1
 #define STRINGLENTH 100
 #define BARWIDTH 10
-#define FREQUENCY 5
 void bar(unsigned short x,unsigned short y,unsigned short color,unsigned short back_color){
 	unsigned short i,j;
-	long int count=24000000/(FREQUENCY*100);
+	long int count=24000000/500;
 	for(i=0;i<=100;i++){
 		for(j=0;j<=BARWIDTH;j++){
 			LCD_drawPixel(i+x,y+j,color);
@@ -54,11 +53,11 @@ void bar(unsigned short x,unsigned short y,unsigned short color,unsigned short b
 int main(){
 	SPI1_init();
 	LCD_init();
-	LCD_clearScreen(GREEN);
+	LCD_clearScreen(WHITE);
 	char str[STRINGLENTH];
 	sprintf(str,"Hello World!");
 	print_string(str,28,32,BLACK);
 	while(1){
-		bar(10,50,RED,GREEN);
+		bar(10,50,BLACK,WHITE);
 	}
 }
