@@ -157,7 +157,7 @@ void APP_Initialize ( void )
     appData.state = APP_STATE_INIT;
 	TRISAbits.TRISA4=0;
 	TRISBbits.TRISB4=1;
-	LATAbits.LATA4=1;
+	LATAbits.LATA4=0;
 	initSPI1();
 	LCD_init();
 	LCD_clearScreen(BLUE);
