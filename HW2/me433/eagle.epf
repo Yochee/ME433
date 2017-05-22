@@ -347,10 +347,11 @@ UsedLibrary="C:/Program Files/EAGLE 8.1.0/lbr/xilinx-xc9.lbr"
 UsedLibrary="C:/Program Files/EAGLE 8.1.0/lbr/xilinx-xcv.lbr"
 UsedLibrary="C:/Program Files/EAGLE 8.1.0/lbr/zetex.lbr"
 UsedLibrary="C:/Program Files/EAGLE 8.1.0/lbr/zilog.lbr"
+UsedLibrary="me433.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="532 148 1731 1150"
+Loc="-13 -58 1186 541"
 State=2
 Number=0
 
