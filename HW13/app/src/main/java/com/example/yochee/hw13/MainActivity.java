@@ -120,19 +120,16 @@ public class MainActivity extends Activity implements TextureView.SurfaceTexture
         mTextureView.getBitmap(bmp);
         final Canvas c = mSurfaceHolder.lockCanvas();
         if (c != null) {
-            int thresh = sensitivity; // comparison value
-            int widthgap = 3;
-            int height = bmp.getHeight()/widthgap;
-            int[][] pixels = new int[height][bmp.getWidth()]; // pixels[] is the RGBA data
-            for (int j = 0; j<height; j++) {    // j is the index of the row of array
-                int y = j*widthgap;                // every 5 pixel each row
-                bmp.getPixels(pixels[j], 0, bmp.getWidth(), 0, y, bmp.getWidth(), 1);
+            float thresh = sensitivity; // comparison value
+            int[][] pixels = new int[bmp.getHeight()][bmp.getWidth()]; // pixels[] is the RGBA data
+            for (int j = 0; j<bmp.getHeight(); j++) {    // j is the index of the row of array
+                bmp.getPixels(pixels[j], 0, bmp.getWidth(), 0, j, bmp.getWidth(), 1);
                 for (int i = 0; i < bmp.getWidth(); i++) {
-                    if ((green(pixels[j][i])*3-(green(pixels[j][i])+red(pixels[j][i])+blue(pixels[j][i]))) > thresh) {
+                    if ((green(pixels[j][i])-255)*(green(pixels[j][i])-255)+blue(pixels[j][i])*blue(pixels[j][i])+red(pixels[j][i])*red(pixels[j][i]) < 195075*(0.5-0.0048*thresh)*(0.5-0.0048*thresh)) {
                         pixels[j][i] = rgb(0, 255, 0); // over write the pixel with pure green
                     }
                 }
-                bmp.setPixels(pixels[j], 0, bmp.getWidth(), 0, y, bmp.getWidth(), 1);
+                bmp.setPixels(pixels[j], 0, bmp.getWidth(), 0, j, bmp.getWidth(), 1);
             }
         }
         // draw a circle at some position

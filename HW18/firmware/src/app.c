@@ -71,6 +71,8 @@ char rx[64]; // the raw data
 int rxPos = 0; // how much data has been stored
 int gotRx = 0; // the flag
 int rxVal = 0; // a place to store the int that was received
+int error = 0, eprev = 0, epprev=0, eppprev=0, edot = 0, eint = 0, u = 0;
+float Kp=1.52, Ki=0, Kd=2.48;
 
 // *****************************************************************************
 /* Application Data
@@ -490,17 +492,28 @@ void APP_Tasks(void) {
                         &appData.writeTransferHandle,
                         dataOut, len,
                         USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
+				error=rxVal-320;
+                eint=eint+error;
+                if(eint>1000){eint=1000;}
+                if(eint<-1000){eint=-1000;}
+				edot=((error-eprev)+(eprev-epprev)+(epprev-eppprev))/3;
+				u=Kp*error+Ki*eint+Kd*edot;
+                if(u>600){u=600;}
+                if(u<-600){u=-600;}
+				eprev=error;
+                epprev=eprev;
+                eppprev=epprev;
                 LATAbits.LATA1 = 0; // direction
-				if(rxVal>50){
-					OC1RS=24*(100-rxVal);
+				if(u<=0){
+					OC1RS=600;
 				}else{
-					OC1RS=1200;
+					OC1RS=600-u;
 				}
                 LATBbits.LATB3 = 1; // direction
-				if(rxVal<50){
-					OC4RS=24*rxVal;
+				if(u>=0){
+					OC4RS=600;
 				}else{
-					OC4RS=1200;
+					OC4RS=600+u;
 				}
                 rxPos = 0;
                 gotRx = 0;
